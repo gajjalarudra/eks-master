@@ -1,11 +1,10 @@
 
 **CLI installations**
 
-```console
 - awscli
 - kubectl
 - eksctl
-```
+
 
 **Helpful commds to know about the eksctl commands**
 
