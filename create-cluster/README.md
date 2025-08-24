@@ -1,29 +1,28 @@
-# eks-master
 
-CLI installations:
+**CLI installations**
 
 - awscli
 - kubectl
 - eksctl
 
-Helpful commds to know about the eksctl commands
+**Helpful commds to know about the eksctl commands**
 
 - eksctl create --help
 - eksctl create cluster --help
 - eksctl create nodegroup --help
 
-Crete EKS Cluster using eksctl
+**Crete EKS Cluster using eksctl**
 
 eksctl create cluster --name=eksdemocluster \
                       --region=us-east-1 \
                       --zones=us-east-1a,us-east-1b \
                       --without-nodegroup
 
-Create & Associate IAM OIDC Provider for EKS Cluster
+**Create & Associate IAM OIDC Provider for EKS Cluster**
 
 eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster eksdemocluster --approve
 
-Create Nodegroup for EKS Cluster (ekddemoclister)
+**Create Nodegroup for EKS Cluster (ekddemoclister)**
 
 eksctl create nodegroup --cluster eksdemocluster \
                         --name=eksdemonodegroup \
@@ -40,7 +39,8 @@ eksctl create nodegroup --cluster eksdemocluster \
                         --full-ecr-access \
                         --appmesh-access \
                         --alb-ingress-access
- List the resorces
+              
+  **List the resorces**
 
  #List EKS Clusters
  - eksctl get cluster
@@ -51,14 +51,14 @@ eksctl create nodegroup --cluster eksdemocluster \
 #Liat Nodes in cluster
 - kubectl get nodes -o wide
 
-#Kubectl context
+**Kubectl context**
 - kubectl config get-contexts
 - kubectl config view --minify
 
-#Delete Nodegroup
+**Delete Nodegroup**
 - eksctl delete nodegroup --cluster eksdemocluster --name eksdemonodegroup
 
-#Delete EKS Cluster
+**Delete EKS Cluster**
 - eksctl delete cluster --name eksdemocluster
                     
 
