@@ -14,10 +14,10 @@
 **Crete EKS Cluster using eksctl**
 
 ```console
-`eksctl create cluster --name=eksdemocluster \
+eksctl create cluster --name=eksdemocluster \
                       --region=us-east-1 \
                       --zones=us-east-1a,us-east-1b \
-                      --without-nodegroup`
+                      --without-nodegroup
 ```
 
 
