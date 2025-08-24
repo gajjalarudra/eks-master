@@ -13,10 +13,11 @@
 
 **Crete EKS Cluster using eksctl**
 
-eksctl create cluster --name=eksdemocluster \
+`eksctl create cluster --name=eksdemocluster \
                       --region=us-east-1 \
                       --zones=us-east-1a,us-east-1b \
-                      --without-nodegroup
+                      --without-nodegroup`
+
 
 **Create & Associate IAM OIDC Provider for EKS Cluster**
 
