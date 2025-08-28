@@ -49,6 +49,12 @@ eksctl create nodegroup --cluster eksdemocluster \
                         --appmesh-access \
                         --alb-ingress-access
 ```
+```console
+eksctl upgrade nodegroup \
+  --cluster <cluster-name> \
+  --name <nodegroup-name> \
+  --instance-types t3.medium
+```
               
   **List the resorces**
 
@@ -73,8 +79,11 @@ eksctl create nodegroup --cluster eksdemocluster \
 **Delete Nodegroup**
 
 ```console
-- eksctl delete nodegroup --cluster eksdemocluster --name eksdemonodegroup
+- eksctl delete nodegroup --cluster eksdemocluster --name eksdemonodegroup or
+
+-eksctl delete nodegroup --cluster nginxdemocluster --name nginxdemonodegroups --disable-eviction
 ```
+
 
 **Delete EKS Cluster**
 
