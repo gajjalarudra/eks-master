@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Replicatset
+
+metadata:
+  name: nginx-demo-replicaset
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-dmeo-app2 #should match with pod template labels
+  template:
+    metadata:
+      name: nginx-demo-pod2
+      labels:
+        app: nginx-dmeo-app2 #should match with selector labels
+    spec:
+      containers:
+        - name: nginx-demo-container
+          image: rudragajjala/nginx-demo:2.0.0
+          ports:
+            - containerPort: 80

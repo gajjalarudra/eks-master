@@ -1,0 +1,15 @@
+apiVersion: vi
+kind: Pod
+
+metadata:
+  name: nginx-demo-pod
+  labels:
+    app: nginx-demo-app
+
+spec:
+  containers:
+    - name: nginx-demo-container
+      image: rudragajjala/nginx-demo:1.0.0
+      ports:
+        - containerPort: 80
+          protocol: TCP

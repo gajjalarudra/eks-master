@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nginx-fronend-deployment
+  labels:
+    app: nginx-frontend
+    tier: frontend
+  
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-frontend
+      tier: frontend
+  template:
+    metadata:
+      name: nginx-frontend-pod
+      labels:
+        app: nginx-frontend
+        tier: frontend
+    spec:
+      containers:
+        - name: nginx-frontend-container
+          image: rudragajjala/nginx-eks-demo:1.0.0
+          ports:
+            - containerPort: 80

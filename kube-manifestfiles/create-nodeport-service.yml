@@ -1,0 +1,15 @@
+apiVersion: v1
+Kind: Service
+
+metadata:
+  name: nginx-demo-nodeport-Service
+
+spec:
+  type: nodeport
+  selector:
+    app: nginx-dmeo-app #should match with pod labels
+  ports:
+    - name: http
+      port: 80 #Service Port
+      targetPort: 80 #Container Port
+      nodeport: 30007 #NodePort Range 30000-32767

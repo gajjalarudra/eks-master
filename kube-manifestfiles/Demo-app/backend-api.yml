@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend-api-deployment
+  labels: 
+    app: backend-api
+    tier: backend
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-api #should match with pod template labels
+  template:
+    metadata:
+      name: backend-api-pod
+      labels:
+        app: backend-api #should match with selector labels
+        tier: backend
+    spec:
+      containers:
+        - name: backend-api-container
+          image: rudragajjala/demo-backend:1.0.0
+          ports:
+            - containerPort: 8080

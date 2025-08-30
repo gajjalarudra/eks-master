@@ -1,0 +1,41 @@
+#simple kay value pairs
+person: #Dictonary
+  name: rudragajjala
+  age: 30
+  city: hyderabad
+  hobbies: #List
+    - coding
+    - reading
+    - traveling
+  friend: #Nested Dictonary 
+    - name: john
+      age: 28
+      city: newyork
+      hobbies: #List
+        - music
+        - sports
+        - gaming
+    - name: alice
+      age: 32 
+      city: london
+      hobbies: #List
+        - painting
+        - hiking
+        - photography
+
+--- #Document separator
+apiVersion: v1 #string
+kind: pod #string
+metadata: #Dictonary
+  name: nginx-pod 
+  labels: #Dictonary
+    app: nginx-demo #string
+spec:
+  containers: #List
+    - name: nginx-demo-container
+      image: rudragajjala/nginx-demo:1.0.0
+      ports: #List
+        - containerPort: 80
+          protocol: TCP
+  
+     
