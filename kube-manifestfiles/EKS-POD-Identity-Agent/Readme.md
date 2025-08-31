@@ -1,14 +1,5 @@
-Step-00: What we’ll do
-In this demo, we’ll understand and implement the Amazon EKS Pod Identity Agent (PIA).
-
-Install the EKS Pod Identity Agent add-on
-Create a Kubernetes AWS CLI Pod in the EKS Cluster and attempt to list S3 buckets (this will fail initially)
-Create an IAM Role with trust policy for Pod Identity → allow Pods to access Amazon S3
-Create a Pod Identity Association between the Kubernetes Service Account and IAM Role
-Re-test from the AWS CLI Pod, successfully list S3 buckets
-Through this flow, we will clearly understand how Pod Identity Agent works in EKS
+# Install EKS Pod Identity Agent
 ```console
-Step-01: Install EKS Pod Identity Agent
 Open EKS Console → Clusters → select your cluster (eksdemo1)
 Go to Add-ons → Get more add-ons
 Search for EKS Pod Identity Agent
