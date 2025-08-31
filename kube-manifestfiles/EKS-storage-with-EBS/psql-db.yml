@@ -30,9 +30,12 @@ spec:
               value: admin
             - name: POSTGRES_PASSWORD
               value: admin123
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
             - name: ebs-sc
               mountPath: /var/lib/postgresql/data
+              subPath: pgdata
             - name: usermgmt-db-create
               mountPath: /docker-entrypoint-initdb.d
       volumes:

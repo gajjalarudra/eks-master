@@ -5,12 +5,4 @@ metadata:
   name: ebs-sc
 
 provisioner: ebs.csi.aws.com
-parameters:
-  type: gp3
-  fsType: ext4
-  encrypted: "true"
-  iopsPerGB: "10"
-  kmsKeyId: "alias/aws/ebs" #optional, if you want to use custom KMS key, provide the key ARN here
-  # Throughput: "125" #optional, valid values are 125, 250, 500, 1000, 2000, 3000, 4000, 5000
-reclaimPolicy: Retain
 volumeBindingMode: WaitForFirstConsumer

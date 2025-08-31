@@ -5,6 +5,6 @@ metadata:
   name: usermgmt-db-create
 
 data:
-  psql_usermgmt.sql: |-
-    DROP DBATABASE IF EXISTS usermgmt;
+  psql_usermgmt.sql: |
+    DROP DATABASE IF EXISTS usermgmt;
     CREATE DATABASE usermgmt;
