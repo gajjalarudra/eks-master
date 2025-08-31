@@ -49,13 +49,7 @@ eksctl create nodegroup --cluster eksdemocluster \
                         --appmesh-access \
                         --alb-ingress-access
 ```
-```console
-eksctl upgrade nodegroup \
-  --cluster <cluster-name> \
-  --name <nodegroup-name> \
-  --instance-types t3.medium
-```
-              
+           
   **List the resorces**
 
 ```console
