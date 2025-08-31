@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: psql-db-deployment
+  labels:
+    app: psql-db
+    tier: db
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: psql-db
+      tier: db
+  template:
+    metadata:
+      name: psql-db-pod
+      labels:
+        app: psql-db
+        tier: db
+    spec:
+      containers:
+        - name: psql-db-container
+          image: postgres:13
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: admin123
+          volumeMounts:
+            - name: ebs-sc
+              mountPath: /var/lib/postgresql/data
+            - name: usermgmt-db-create
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: ebs-sc
+          persistentVolumeClaim:
+            claimName: ebs-pv-claim
+        - name: usermgmt-db-create
+          configMap:
+            name: usermgmt-db-create

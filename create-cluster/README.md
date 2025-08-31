@@ -49,7 +49,7 @@ eksctl create nodegroup --cluster eksdemocluster \
                         --appmesh-access \
                         --alb-ingress-access
 ```
-           
+
   **List the resorces**
 
 ```console
@@ -75,7 +75,7 @@ eksctl create nodegroup --cluster eksdemocluster \
 ```console
 - eksctl delete nodegroup --cluster eksdemocluster --name eksdemonodegroup or
 
--eksctl delete nodegroup --cluster nginxdemocluster --name nginxdemonodegroups --disable-eviction
+- eksctl delete nodegroup --cluster nginxdemocluster --name nginxdemonodegroups --disable-eviction
 ```
 
 

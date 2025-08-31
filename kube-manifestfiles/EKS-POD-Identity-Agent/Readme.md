@@ -15,7 +15,6 @@ kubectl get daemonset -n kube-system
 ```consloe
 kubectl get pods -n kube-system
 kubectl get pods -n kube-system | grep eks-pod-identity-agent
-Step-02: Deploy AWS CLI Pod (without Pod Identity Association)
 ```
 # Create Service Account
 k8s-service-account.yml
