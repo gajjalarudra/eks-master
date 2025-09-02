@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: user-create-service
+  labels:
+    app: user-create
+    tier: backend
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-create
+      tier: backend
+  template:
+    metadata:
+      name: user-create-pod
+      labels:
+        app: user-create
+        tier: backend
+    spec:
+      serviceAccountName: usermgmt-sa
+      containers:
+        - name: user-create-micro-service-container
+          image: rudragajjala/user-create-service:v1
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+          env:
+            - name: DB_HOST
+              value: psql-clusterip
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: usermgmt
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets-from-secrets-manager
+                  key: db_username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets-from-secrets-manager
+                  key: db_password
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "cusermgmt-db-secrets"

@@ -75,14 +75,14 @@ eksctl create nodegroup --cluster eksdemocluster \
 ```console
 - eksctl delete nodegroup --cluster eksdemocluster --name eksdemonodegroup or
 
-- eksctl delete nodegroup --cluster nginxdemocluster --name nginxdemonodegroups --disable-eviction
+- eksctl delete nodegroup --cluster mydemocluster --name mydemonodegroup --disable-eviction
 ```
 
 
 **Delete EKS Cluster**
 
 ```console
-- eksctl delete cluster --name eksdemocluster
+- eksctl delete cluster --name mydemocluster
 ```
                     
 

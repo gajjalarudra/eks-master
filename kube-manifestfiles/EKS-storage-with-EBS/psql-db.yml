@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: psql-db-deployment
+  name: psql-db
   labels:
     app: psql-db
     tier: db
