@@ -74,7 +74,7 @@ kubectl describe secret db-secrets-from-secrets-manager
 kubectl get secret db-secrets-from-secrets-manager -o jsonpath="{.data.db_username}" | base64 --decode
 kubectl get secret db-secrets-from-secrets-manager -o jsonpath="{.data.db_password}" | base64 --decode
 ```
-# 11. Expose the user-create microservice using LoadBalancer service
+# 11. Expose the user-create microservice using nodeport service
 ```console
 kubectl apply -f user-create-service.yml
 kubectl get svc
