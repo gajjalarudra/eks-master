@@ -50,12 +50,16 @@ eksctl create iamserviceaccount --name "usermgmt-sa" --cluster "usermgmtdemoclus
 ```console
 kubectl apply -f secret-provider-class.yml
 ```
+# 7. Create the postgres pod for the application
+```console
+kubectl apply -f ./EKS-storage-with-EBS
+```
 
-# 7. Deploy the user-create microservice
+# 8. Deploy the user-create microservice
 ```console
 kubectl apply -f user-create-deployment.yml
 ```
-# 8. Verify the secrets are mounted to the pod
+# 9. Verify the secrets are mounted to the pod
 ```console
 kubectl get pods
 kubectl describe pod user-create-microservice-xxxx
@@ -63,13 +67,22 @@ kubectl exec -it user-create-microservice-xxxx -- ls /mnt/secrets-store
 kubectl exec -it user-create-microservice-xxxx -- cat /mnt/secrets-store/db_username
 kubectl exec -it user-create-microservice-xxxx -- cat /mnt/secrets-store/db_password
 ```
-# 9. Verify the secrets are synced as Kubernetes secret
+# 10. Verify the secrets are synced as Kubernetes secret
 ```console
 kubectl get secrets
 kubectl describe secret db-secrets-from-secrets-manager
 kubectl get secret db-secrets-from-secrets-manager -o jsonpath="{.data.db_username}" | base64 --decode
 kubectl get secret db-secrets-from-secrets-manager -o jsonpath="{.data.db_password}" | base64 --decode
 ```
-# 10. Test the micro service by creating user from postman or frontend (if you have webapp)
+# 11. Expose the user-create microservice using LoadBalancer service
+```console
+kubectl apply -f user-create-service.yml
+kubectl get svc
+```
+# 12. Get the external ip from nodes
+```console
+kubectl get nodes -o wide
+```
+# 13. Test the micro service by creating user from postman or frontend (if you have webapp)
 
 
