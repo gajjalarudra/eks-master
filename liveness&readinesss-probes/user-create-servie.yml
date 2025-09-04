@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: user-create-nodeport-service
+  labels:
+    app: user-create
+    tier: backend #tier can be frontend/backend/db
+  namespace: default
+
+spec:
+  type: NodePort
+  selectore:
+    app: user-create-microservice #should match with pod labels
+    tier: backend
+  ports:
+    - name: user-create-service
+      port: 3000 #Service Port
+      targetPort: 3000 #Container Port
+      nodePort: 32000 #NodePort range is 30000-32767

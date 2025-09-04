@@ -1,4 +1,4 @@
-# Reade the secrets from secret manager from the EKS cluster
+# Read the secrets from secret manager from the EKS cluster
 
 Follow the below steps.
 
