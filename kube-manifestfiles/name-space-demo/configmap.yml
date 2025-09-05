@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: usermgmt-db-create
+  namespace: usermgmt
+
+data:
+  psql_usermgmt.sql: |
+    DROP DATABASE IF EXISTS usermgmt;
+    CREATE DATABASE usermgmt;

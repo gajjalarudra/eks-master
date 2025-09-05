@@ -1,12 +1,12 @@
 
-**CLI installations**
+# CLI installations
 
 - awscli
 - kubectl
 - eksctl
 
 
-**Helpful commds to know about the eksctl commands**
+# Helpful commds to know about the eksctl commands
 
 ```console
 - eksctl create --help
@@ -14,7 +14,7 @@
 - eksctl create nodegroup --help
 ```
 
-**Crete EKS Cluster using eksctl**
+# Crete EKS Cluster using eksctl
 
 ```console
 eksctl create cluster --name=eksdemocluster \
@@ -24,13 +24,13 @@ eksctl create cluster --name=eksdemocluster \
 ```
 
 
-**Create & Associate IAM OIDC Provider for EKS Cluster**
+# Create & Associate IAM OIDC Provider for EKS Cluster
 ```console
 
 eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster eksdemocluster --approve
 ```
 
-**Create Nodegroup for EKS Cluster (ekddemoclister)**
+# Create Nodegroup for EKS Cluster (ekddemoclister)
 
 ```console
 eksctl create nodegroup --cluster eksdemocluster \
@@ -50,7 +50,7 @@ eksctl create nodegroup --cluster eksdemocluster \
                         --alb-ingress-access
 ```
 
-  **List the resorces**
+  # List the resorces
 
 ```console
  #List EKS Clusters
@@ -63,14 +63,14 @@ eksctl create nodegroup --cluster eksdemocluster \
 - kubectl get nodes -o wide
 ```
 
-**Kubectl context**
+# Kubectl context
 
 ```console
 - kubectl config get-contexts
 - kubectl config view --minify
 ```
 
-**Delete Nodegroup**
+# Delete Nodegroup
 
 ```console
 - eksctl delete nodegroup --cluster eksdemocluster --name eksdemonodegroup or
@@ -79,7 +79,7 @@ eksctl create nodegroup --cluster eksdemocluster \
 ```
 
 
-**Delete EKS Cluster**
+# Delete EKS Cluster
 
 ```console
 - eksctl delete cluster --name mydemocluster

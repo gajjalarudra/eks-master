@@ -2,27 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: user-create-service-deployment
+  name: user-create-service
   labels:
-    app: user-create-microservice
+    app: user-create
     tier: backend
+  namespace: usermgmt
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-create-microservice
+      app: user-create
       tier: backend
   template:
     metadata:
-      name: user-create-microservice-pod
+      name: user-create-pod
       labels:
-        app: user-create-microservice
+        app: user-create
         tier: backend
     spec:
       serviceAccountName: usermgmt-sa
       containers:
-        - name: user-create-microservice-container
+        - name: user-create-micro-service-container
           image: rudragajjala/user-create-service:v1
           ports:
             - containerPort: 3000
@@ -47,41 +48,10 @@ spec:
                 secretKeyRef:
                   name: db-secrets-from-secrets-manager
                   key: db_password
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "500m"
-            limits:
-              memory: "256Mi"
-              cpu: "1000m"
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 3000
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            failureThreshold: 3
-          #livenessProbe: # Uncomment this section to use command based(nc -z) liveness probe
-          #  exec:
-          #    command:
-          #    - sh
-          #    - -c
-          #    - nc -z localhost "3000"
-          #  initialDelaySeconds: 30
-          #  periodSeconds: 10
-          #  failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 3000
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            failureThreshold: 3
-    volumes:
+      volumes:
         - name: secrets-store-inline
           csi:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "usermgmt-db-secrets"
-          
+              secretProviderClass: "cusermgmt-db-secrets"
