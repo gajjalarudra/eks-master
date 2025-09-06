@@ -2,38 +2,35 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: user-create-service
+  name: user-create-service-deployment
   labels:
-    app: user-create
+    app: user-create-micro-servcie
     tier: backend
-  namespace: usermgmt
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-create
+      app: user-create-micro-servcie
       tier: backend
   template:
     metadata:
-      name: user-create-pod
       labels:
-        app: user-create
+        app: user-create-micro-servcie
         tier: backend
     spec:
-      serviceAccountName: usermgmt-sa
       containers:
-        - name: user-create-micro-service-container
+        - name: user-create-micro-servcie
           image: rudragajjala/user-create-service:1.0.0
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: secrets-store-inline
+            - name: user-create-secret-inline
               mountPath: "/mnt/secrets-store"
               readOnly: true
           env:
             - name: DB_HOST
-              value: psql-clusterip
+              value: rds-exteralname-svc
             - name: DB_PORT
               value: "5432"
             - name: DB_NAME
@@ -41,17 +38,39 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: db-secrets-from-secrets-manager
+                  name: user-mgmt-db-secret
                   key: db_username
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
-                  name: db-secrets-from-secrets-manager
+                  name: user-mgmt-db-secret
                   key: db_password
       volumes:
-        - name: secrets-store-inline
+        - name: user-create-secret-inline
           csi:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "cusermgmt-db-secrets"
+              secretProviderClass: "user-mgmt-secrets"
+
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: user-create-nodeport-service
+  labels:
+    app: user-create-micro-servcie
+    tier: backend
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /create/health
+
+spec:
+  type: NodePort
+  selector:
+    app: user-create-micro-servcie
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

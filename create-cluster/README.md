@@ -26,7 +26,6 @@ eksctl create cluster --name=eksdemocluster \
 
 # Create & Associate IAM OIDC Provider for EKS Cluster
 ```console
-
 eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster eksdemocluster --approve
 ```
 
@@ -47,7 +46,10 @@ eksctl create nodegroup --cluster eksdemocluster \
                         --external-dns-access \
                         --full-ecr-access \
                         --appmesh-access \
-                        --alb-ingress-access
+                        --alb-ingress-access \
+                        --node-private-networking 
+or
+eksctl create nodegroup --cluster usermgmtdemocluster --name usermgmtdemonodegroup --node-type t3.medium  --nodes 2 --nodes-min 2 --nodes-max 2 --node-volume-size 50 --managed --ssh-access --ssh-public-key 'Asia(Mumbai)' --asg-access --external-dns-access --full-ecr-access --alb-ingress-access --node-private-networking
 ```
 
   # List the resorces
@@ -75,7 +77,7 @@ eksctl create nodegroup --cluster eksdemocluster \
 ```console
 - eksctl delete nodegroup --cluster eksdemocluster --name eksdemonodegroup or
 
-- eksctl delete nodegroup --cluster mydemocluster --name mydemonodegroup --disable-eviction
+- eksctl delete nodegroup --cluster usermgmtdemocluster --name usermgmtdemonodegroup --disable-eviction
 ```
 
 

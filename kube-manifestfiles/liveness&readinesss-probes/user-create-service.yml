@@ -23,7 +23,7 @@ spec:
       serviceAccountName: usermgmt-sa
       containers:
         - name: user-create-microservice-container
-          image: rudragajjala/user-create-service:v1
+          image: rudragajjala/user-create-service:1.0.0
           ports:
             - containerPort: 3000
           volumeMounts:

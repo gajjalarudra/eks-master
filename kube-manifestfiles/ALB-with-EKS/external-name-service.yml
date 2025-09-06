@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: rds-exteralname-svc
+  namespace: usermgmt
+
+spec:
+  type: ExternalName
+  externalName: rds-externalname-svc.rds.svc.cluster.local # RDS Endpoint
+  ports:
+    - port: 5432
+      targetPort: 5432

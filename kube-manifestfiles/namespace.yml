@@ -22,3 +22,28 @@ spec:
         memory: 128Mi
         cpu: 500m
       type: Container
+
+---
+# Resource Quota for usermgmt namespace
+apiVersion: v1
+kind: ResourceQuota
+
+metadata:
+  name: usermgmt-quota
+  namespace: usermgmt
+
+spec:
+  hard:
+    pods: "10" # Total number of pods in the namespace
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi
+    persistentvolumeclaims: "10"
+    secerts: "10"
+    services: "10"
+    configmaps: "10"
+    services.loadbalancers: "10"
+    services.nodeports: "10"
+    limits.storage: 20Gi
+    requests.storage: 20Gi

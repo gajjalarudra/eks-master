@@ -1,0 +1,85 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: usermgmt-alb-ingress-service
+  labels:
+    app: usermgmt-alb-ingress-service
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: usermgmt-alb-ingress
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/healthcheck-protocol: http
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    #alb.ingress.kubernetes.io/healthcheck-path: /create/health #define it in service level when you are using the alb for multipe applications
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+    alb.ingress.kubernetes.io/success-codes: '200'
+    alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
+    #SSL Settings
+    #alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    #alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-1:390402566276:certificate/0e117254-e0e5-4a92-aef7-b70799818814
+    #alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-Ext-2018-06
+    #alb.ingress.kubernetes.io/actions.ssl-redirect: '443'
+    #External DNS Settings
+    #external-dns.alpha.kubernetes.io/hostname: usermgmtapi.devopspedia.online # You can add , separated multiple dns names to create.
+
+spec:
+  #ingressClassName: usermgmt-ingressclass-for-alb # we alrady defined it as a defualt class, so we don't need to specify here
+  defaultbackend:
+    servise:
+      name: user-create-nodeport-service
+      port:
+        name: http
+        number: 80
+
+  tls: 
+    - host: 
+        - "*.devopspedia.online"
+  #rules: #rules can be used to route the traffic based on path based.
+   # - host: usermgmtapi.devopspedia.online # host based routing rules
+    #  http:
+      #  paths:
+        #  - path: /
+          #  pathType: Prefix
+           # backend:
+            #  service:
+               # name: user-create-nodeport-service
+               # port:
+                #  number: 80
+   # - host: superkart.devopspedia.online
+     # http:
+       # paths:
+        #  - path: /
+          #  pathType: Prefix
+           # backend:
+             # service:
+              #  name: superkart-nodeport-service
+               # port:
+                #  number: 80
+
+   # - http:
+      #  paths:
+      #    - path: /create
+        #    pathType: Prefix
+          #  backend:
+          #    service:
+           #     name: user-create-nodeport-service
+             #   port:
+             #     number: 80
+        #  - path: /manage
+        #    pathType: Prefix
+          #  backend:
+          #    service:
+           #     name: user-manage-nodeport-service
+             #   port:
+             #     number: 80
+    #      - path: /notify
+        #    pathType: Prefix
+          #  backend:
+          #    service:
+           #     name: user-notify-nodeport-service
+             #   port:
+             #     number: 80
+  
+      

@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: user-mgmt-micro-service-deployment
+  labels:
+    app: user-mgmt-micro-service
+    tier: backend
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-mgmt-micro-service
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: user-mgmt-micro-service
+        tier: backend
+    spec:
+      containers:
+        - name: user-mgmt-micro-service
+          image: rudragajjala/user-mgmt-service:1.0.0
+          ports:
+            - containerPort: 3001
+          volumeMounts:
+            - name: user-mgmt-secret-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+          env:
+            - name: DB_HOST
+              value: "mysql-service"
+            - name: DB_NAME
+              value: "usermgmt"
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-db-secrets
+                  key: db_username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-mgmt-db-secrets
+                  key: db_password
+      volumes:
+        - name: user-mgmt-secret-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "user-mgmt-secrets"
+
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: user-mgmt-nodeport-service
+  labels:
+    app: user-mgmt-micro-service
+    tier: backend
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /manage/health
+
+spec:
+  type: NodePort
+  selector:
+    app: user-mgmt-micro-service
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3001
+
+
+  

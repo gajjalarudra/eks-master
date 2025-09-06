@@ -22,9 +22,7 @@ spec:
         tier: db
     spec:
       containers:
-        - name: psql-db-container
-          image: postgres:13
-          ports:
+        - ports:
             - containerPort: 5432
           env:
             - name: POSTGRES_USER
@@ -39,6 +37,9 @@ spec:
               subPath: pgdata
             - name: usermgmt-db-create
               mountPath: /docker-entrypoint-initdb.d
+          command: []
+          name: psql-db-container
+          image: postgres:13
       volumes:
         - name: ebs-sc
           persistentVolumeClaim:
