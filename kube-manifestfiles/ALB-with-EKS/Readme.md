@@ -31,9 +31,7 @@ eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster usermgmtd
 ```console
 curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
 
-aws iam create-policy \
-    --policy-name AWSLoadBalancerControllerIAMPolicy \
-    --policy-document file://iam-policy.json
+aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam-policy.json
 
 "Arn": "arn:aws:iam::390402566276:policy/AWSLoadBalancerControllerIAMPolicy",
 ```
@@ -41,13 +39,7 @@ Take the POlicy  ARN that returned.
 
 3. Create IAM service account for AWS Load Balancer Controller
 ```console
-eksctl create iamserviceaccount \
-  --cluster=usermgmtdemocluster \
-  --namespace=kube-system \
-  --name=aws-load-balancer-controller-sa \
-  --attach-policy-arn=arn:aws:iam::390402566276:policy/AWSLoadBalancerControllerIAMPolicy \
-  --override-existing-serviceaccounts \
-  --approve
+eksctl create iamserviceaccount --cluster=usermgmtqacluster --namespace=kube-system --name=aws-load-balancer-controller-sa --attach-policy-arn=arn:aws:iam::390402566276:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
 ```
 Replace the <cluster-name> and <AWS_ACCOUNT_ID> with actual values.
 
@@ -79,7 +71,7 @@ kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/
 ```console
 # NOTE: The clusterName value must be set either via the values.yaml or the Helm command line. The <k8s-cluster-name> in the command
 # below should be replaced with name of your k8s cluster before running it.
-helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=usermgmtdemocluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller-sa --set region=ap-south-1 --set vpcId=vpc-0bb59b7c0e960a3ea
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=usermgmtqacluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller-sa --set region=ap-south-1 --set vpcId=vpc-0f146f1a3f2732850
 ```
 4. Verify the load balancer controller
 ```console
@@ -132,13 +124,7 @@ eksctl create iamserviceaccount \
     --override-existing-serviceaccounts
 
 # Replaced name, namespace, cluster, arn 
-eksctl create iamserviceaccount \
-    --name external-dns \
-    --namespace default \
-    --cluster eksdemo1 \
-    --attach-policy-arn arn:aws:iam::180789647333:policy/AllowExternalDNSUpdates \
-    --approve \
-    --override-existing-serviceaccounts
+eksctl create iamserviceaccount --name external-dns --namespace default --cluster usermgmtqacluster --attach-policy-arn arn:aws:iam::390402566276:policy/external-dns-policy --approve --override-existing-serviceaccounts
 ```
 3. Verify the Service account
 ```console

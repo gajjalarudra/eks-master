@@ -2,23 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: user-mgmt-micro-service-deployment
+  name: user-notify-micro-service-deployment
   labels:
-    app: user-mgmt-micro-service
+    app: user-notify-micro-service
     tier: backend
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-mgmt-micro-service
+      app: user-notify-micro-service
       tier: backend
   template:
     metadata:
       labels:
-        app: user-mgmt-micro-service
+        app: user-notify-micro-service
         tier: backend
     spec:
+      serviceAccountName: usermgmt-sa
       containers:
         - name: user-notify-micro-service
           image: rudragajjala/user-notifications-service:1.0.0
@@ -54,7 +55,7 @@ kind: Service
 metadata:
   name: user-notify-nodeport-service
   labels:
-    app: user-mgmt-micro-service
+    app: user-notify-micro-service
     tier: backend
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /notify/health

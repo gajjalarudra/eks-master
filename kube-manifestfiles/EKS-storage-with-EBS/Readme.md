@@ -30,3 +30,25 @@ Add trust policy for Pod Identity, for example:
     ]
 }
 ```
+
+# Add on
+```console
+aws eks create-addon --cluster-name usermgmtqacluster --addon-name eks-pod-identity-agent --addon-version latest
+```
+# create trust policy
+```console
+aws iam create-role --role-name eks-pia-role --assume-role-policy-document file://trust-policy.json
+```
+# create policy ro ebs access
+```console
+aws iam create-policy --policy-name EBS-Access-Policy --policy-document file://iam-policy-for-ebs.json
+```
+# attach policy to pod role
+```console
+aws iam attach-role-policy --role-name EBS-Access-Role --policy-arn arn:aws:iam::390402566276:policy/EBS-Access-Policy
+```
+# ccreate pod identity assosiation
+```console
+aws eks create-pod-identity-association --cluster-name usermgmtqacluster --namespace kube-system --service-account aws-access-service --role-arn arn:aws:iam::390402566276:role/eks-pia-role
+``
+

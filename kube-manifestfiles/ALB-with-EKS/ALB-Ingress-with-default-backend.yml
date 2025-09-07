@@ -10,6 +10,8 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/healthcheck-protocol: http
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    #alb.ingress.kubernetes.io/target-type: ip #by default it is instance, we need to change it to ip if you want to the route the traffic to pod directly (EKS Fargate)
+    alb.ingress.kubernetes.io/healthcheck-path: /create/health
     #alb.ingress.kubernetes.io/healthcheck-path: /create/health #define it in service level when you are using the alb for multipe applications
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
     alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
@@ -58,7 +60,7 @@ spec:
                # port:
                 #  number: 80
 
-   # - http:
+   # - http: # context path based routing
       #  paths:
       #    - path: /create
         #    pathType: Prefix

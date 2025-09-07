@@ -19,6 +19,7 @@ spec:
         app: user-mgmt-micro-service
         tier: backend
     spec:
+      serviceAccountName: usermgmt-sa
       containers:
         - name: user-mgmt-micro-service
           image: rudragajjala/user-mgmt-service:1.0.0
@@ -30,7 +31,7 @@ spec:
               readOnly: true
           env:
             - name: DB_HOST
-              value: "mysql-service"
+              value: psql-clusterip
             - name: DB_NAME
               value: "usermgmt"
             - name: DB_USER
@@ -38,7 +39,7 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-db-secrets
                   key: db_username
-            - name: DB_PASSWORD
+            - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   name: user-mgmt-db-secrets

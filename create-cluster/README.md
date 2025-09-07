@@ -49,7 +49,7 @@ eksctl create nodegroup --cluster eksdemocluster \
                         --alb-ingress-access \
                         --node-private-networking 
 or
-eksctl create nodegroup --cluster usermgmtdemocluster --name usermgmtdemonodegroup --node-type t3.medium  --nodes 2 --nodes-min 2 --nodes-max 2 --node-volume-size 50 --managed --ssh-access --ssh-public-key 'Asia(Mumbai)' --asg-access --external-dns-access --full-ecr-access --alb-ingress-access --node-private-networking
+eksctl create nodegroup --cluster usermgmtdemocluster --name usermgmtdemonodegroup --node-type t3.medium  --nodes 2 --nodes-min 2 --nodes-max 2 --node-volume-size 50 --managed --ssh-access --ssh-public-key 'Asia(Mumbai)' --asg-access --external-dns-access --full-ecr-access --alb-ingress-access --node-private-networking --alb-ingress-access
 ```
 
   # List the resorces

@@ -19,6 +19,7 @@ spec:
         app: user-create-micro-servcie
         tier: backend
     spec:
+      serviceAccountName: usermgmt-sa
       containers:
         - name: user-create-micro-servcie
           image: rudragajjala/user-create-service:1.0.0
@@ -30,7 +31,7 @@ spec:
               readOnly: true
           env:
             - name: DB_HOST
-              value: rds-exteralname-svc
+              value: psql-clusterip
             - name: DB_PORT
               value: "5432"
             - name: DB_NAME
@@ -38,12 +39,12 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: user-mgmt-db-secret
+                  name: user-mgmt-db-secrets
                   key: db_username
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
-                  name: user-mgmt-db-secret
+                  name: user-mgmt-db-secrets
                   key: db_password
       volumes:
         - name: user-create-secret-inline
