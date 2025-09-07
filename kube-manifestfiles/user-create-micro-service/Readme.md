@@ -43,7 +43,7 @@ kubectl apply -f https://raw.githubusercontent.com/aws/secrets-store-csi-driver-
 # 4. Attach the IAM policy to the EKS Nodegroup Role 
 # 5. Create Service Account with the IAM Role
 ```console
-eksctl create iamserviceaccount --name "usermgmt-sa" --cluster "usermgmtdemocluster" --attach-policy-arn "policy-arn" --approve --namespace default --override-existing-serviceaccounts
+eksctl create iamserviceaccount --name "usermgmt-sa" --cluster "usermgmtqacluster" --attach-policy-arn "arn:aws:iam::390402566276:policy/EKS-Secrtes-policy" --approve --namespace default --override-existing-serviceaccounts
 ```
 
 # 6. Create the SecretProviderClass to fetch the secrets from AWS Secret Manager

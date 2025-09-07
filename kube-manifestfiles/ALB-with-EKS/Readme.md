@@ -33,7 +33,7 @@ curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-lo
 
 aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam-policy.json
 
-"Arn": "arn:aws:iam::390402566276:policy/AWSLoadBalancerControllerIAMPolicy",
+"Arn": "arn:aws:iam::xxxxxxxxxx:policy/AWSLoadBalancerControllerIAMPolicy",
 ```
 Take the POlicy  ARN that returned.
 
