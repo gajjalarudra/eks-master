@@ -6,6 +6,7 @@ metadata:
   labels:
     app: user-create-micro-servcie
     tier: backend
+  namespace: usermgmt-ns
 
 spec:
   replicas: 1
@@ -63,6 +64,7 @@ metadata:
   labels:
     app: user-create-micro-servcie
     tier: backend
+  namespace: usermgmt-ns
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /create/health
 

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: user-create-service
+  labels:
+    app: user-create
+    tier: backend
+  namespace: usermgmt
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-create
+      tier: backend
+  template:
+    metadata:
+      name: user-create-pod
+      labels:
+        app: user-create
+        tier: backend
+    spec:
+      containers:
+        - name: user-create-micro-service-container
+          image: rudragajjala/user-create-service:2.0.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: psql-clusterip
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: usermgmt
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: usermgmt-app-secrets
+                  key: db_username
+                  optional: false
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: usermgmt-app-secrets
+                  key: db_password
+                  optional: false
+          resources:
+            requests:
+              cpu: 500m
+              memory: 500Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi

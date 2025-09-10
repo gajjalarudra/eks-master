@@ -6,6 +6,7 @@ metadata:
   labels:
     app: user-notify-micro-service
     tier: backend
+  namespace: usermgmt-ns
 
 spec:
   replicas: 1
@@ -57,6 +58,7 @@ metadata:
   labels:
     app: user-notify-micro-service
     tier: backend
+  namespace: usermgmt-ns
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: /notify/health
 

@@ -39,7 +39,7 @@ Take the POlicy  ARN that returned.
 
 3. Create IAM service account for AWS Load Balancer Controller
 ```console
-eksctl create iamserviceaccount --cluster=usermgmtqacluster --namespace=kube-system --name=aws-load-balancer-controller-sa --attach-policy-arn=arn:aws:iam::390402566276:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
+eksctl create iamserviceaccount --cluster=usermgmtfargatecluster --namespace=external-dns-controller --name=aws-load-balancer-controller-sa-new --attach-policy-arn=arn:aws:iam::390402566276:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
 ```
 Replace the <cluster-name> and <AWS_ACCOUNT_ID> with actual values.
 
@@ -71,7 +71,7 @@ kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/
 ```console
 # NOTE: The clusterName value must be set either via the values.yaml or the Helm command line. The <k8s-cluster-name> in the command
 # below should be replaced with name of your k8s cluster before running it.
-helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=usermgmtqacluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller-sa --set region=ap-south-1 --set vpcId=vpc-0f146f1a3f2732850
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n external-dns-controller --set clusterName=usermgmtqacluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller-sa-new --set region=ap-south-1 --set vpcId=vpc-0df0ac932e73e629f
 ```
 4. Verify the load balancer controller
 ```console
@@ -124,7 +124,7 @@ eksctl create iamserviceaccount \
     --override-existing-serviceaccounts
 
 # Replaced name, namespace, cluster, arn 
-eksctl create iamserviceaccount --name external-dns --namespace default --cluster usermgmtqacluster --attach-policy-arn arn:aws:iam::390402566276:policy/external-dns-policy --approve --override-existing-serviceaccounts
+eksctl create iamserviceaccount --name external-dns --namespace external-dns-ns --cluster usermgmtfargatecluster --attach-policy-arn arn:aws:iam::390402566276:policy/external-dns-policy --approve --override-existing-serviceaccounts
 ```
 3. Verify the Service account
 ```console
@@ -134,7 +134,6 @@ kubectl get sa external-dns
 ```console
 kubectl apply -f external-dns.yml
 ```
-
 
 
 

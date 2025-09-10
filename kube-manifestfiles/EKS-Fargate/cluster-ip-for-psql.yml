@@ -6,6 +6,7 @@ metadata:
   labels:
     app: psql
     tier: db
+  namespace: usermgmt
   
 
 spec:
