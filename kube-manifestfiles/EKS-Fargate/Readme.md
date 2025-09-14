@@ -1,13 +1,13 @@
 # Create cluster with fargate
 
 ```console
-eksctl create cluster --name usermgmtfargatecluster --region ap-south-1 --fargate --alb-ingress-access --full-ecr-access --asg-access
+eksctl create cluster --name usermgmt-fargate-cluster --region ap-south-1 --fargate --alb-ingress-access --full-ecr-access --asg-access
 ```
 
 # Create fargate profiles
 
 ```console
-eksctl create fargateprofile --cluster usermgmtfargatecluster --name usermgmt-app --namespace usermgmt
+eksctl create fargateprofile --cluster usermgmt-fargate-cluster --name usermgmt-app --namespace usermgmt
 ```
 
 # Secrers from aws secrets manager
@@ -18,7 +18,7 @@ eksctl create fargateprofile --cluster usermgmtfargatecluster --name usermgmt-ap
 eksctl create fargateprofile --cluster <CLUSTER_NAME> --name external-secrets-profile --namespace external-secrets
 
 #with actual values
-eksctl create fargateprofile --cluster usermgmtfargatecluster --name external-secrets-profile --namespace external-secrets
+eksctl create fargateprofile --cluster usermgmt-fargate-cluster --name external-secrets-profile --namespace external-secrets
 ```
 2. Verify that the fargate profile created correctly or not
 ```console
@@ -35,7 +35,7 @@ kubectl get pods -n external-secrets
 ```
 5. Configure IAM policy to get the secrets from secrets manager and bind it to service account
 ```console
-eksctl create iamserviceaccount --name external-secrets-sa --namespace usermgmt --cluster usermgmtfargatecluster --attach-policy-arn <policy-arn> --approve --override-existing-serviceaccounts
+eksctl create iamserviceaccount --name external-secrets-sa --namespace external-secrets --cluster usermgmt-fargate-cluster --attach-policy-arn arn:aws:iam::390402566276:policy/EKS-Secrtes-policy --approve --override-existing-serviceaccounts
 
 Note: Service account can be create in a namespce where our backend application is going to be deployed (In this case it is usermgmt)
 ```
@@ -57,4 +57,6 @@ kubectl get secret -n usermgmt
 ```console
 Kubectl apply -f usermgmt-micro-service.yml
 ```
+
+
 

@@ -1,0 +1,22 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: demo-fargate-cluster
+  region: ap-south-1
+
+fargateProfiles: 
+  - name: external-secret-fp
+    selectors:
+      - namespace: external-secrets
+  - name: lb-ingress-fp
+    selectors:
+      - namespace: lb-ingress
+  - name: nginx-demo-fp
+    selectors:
+      - namespace: nginx-demo
+        labels:
+          app: nginx-demo
+          runon: fargate
+  - name: external-dns-fp
+    selectors:
+      - namespace: external-dns

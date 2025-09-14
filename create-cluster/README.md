@@ -26,7 +26,7 @@ eksctl create cluster --name=eksdemocluster \
 
 # Create & Associate IAM OIDC Provider for EKS Cluster
 ```console
-eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster eksdemocluster --approve
+eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster usermgmt-fargate-cluster --approve
 ```
 
 # Create Nodegroup for EKS Cluster (ekddemoclister)
@@ -87,6 +87,9 @@ eksctl create nodegroup --cluster usermgmtdemocluster --name usermgmtdemonodegro
 - eksctl delete cluster --name mydemocluster
 ```
                     
-
+# Creat the Fargate profile
+```console
+eksctl create cluster --name usermgmtfargatecluster --region ap-south-1 --fargate --alb-ingress-access --full-ecr-access --asg-access
+```
 
 

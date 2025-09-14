@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: nginx-demo-ingress
+  namespace: nginx-demo
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/load-balancer-name: nginx-demo-alb
+    #alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
+    #alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-1:390402566276:certificate/1a3f3b1e-1c4e-4d3b-9f7a-5e2b6f8e8e7f
+    #alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "30"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
+
+spec:
+  #ingressClassName: nginx-demo # we alrady defined it as a defualt class, so we don't need to specify here
+  defaultBackend:
+    service:
+      name: nginx-demo-service
+      port:
+        number: 80
+
+  tls:
+    - hosts:
+        - "*.devopspedia.online"

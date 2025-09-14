@@ -39,7 +39,7 @@ Take the POlicy  ARN that returned.
 
 3. Create IAM service account for AWS Load Balancer Controller
 ```console
-eksctl create iamserviceaccount --cluster=usermgmtfargatecluster --namespace=external-dns-controller --name=aws-load-balancer-controller-sa-new --attach-policy-arn=arn:aws:iam::390402566276:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
+eksctl create iamserviceaccount --name lb-ingress-sa --cluster=demo-fargate-cluster --namespace=loadbalancer-controller --name=aws-load-balancer-controller-sa-new --attach-policy-arn=arn:aws:iam::390402566276:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
 ```
 Replace the <cluster-name> and <AWS_ACCOUNT_ID> with actual values.
 
@@ -49,13 +49,13 @@ kubectl get sa -n kube-system
 ```
 # Install cert-manager using Helm
 ```console
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.crds.yaml -n lb-ingress
 
 ## Add the Jetstack Helm repository
 $ helm repo add jetstack https://charts.jetstack.io --force-update
 
 ## Install the cert-manager helm chart
-$ helm install cert-manager --namespace cert-manager --version v1.18.2 jetstack/cert-manager
+$ helm install cert-manager --namespace lb-ingress jetstack/cert-manager
 ```
 # Install AWS load balancer contorller
 
@@ -65,13 +65,13 @@ helm repo add eks https://aws.github.io/eks-charts
 ```
 2. Install the TargetGroupBinding CRDS
 ```console
-kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
+kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master" -n lb-ingress
 ```
 3. Install the controller
 ```console
 # NOTE: The clusterName value must be set either via the values.yaml or the Helm command line. The <k8s-cluster-name> in the command
 # below should be replaced with name of your k8s cluster before running it.
-helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n external-dns-controller --set clusterName=usermgmtqacluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller-sa-new --set region=ap-south-1 --set vpcId=vpc-0df0ac932e73e629f
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n loadbalancer-controller --set clusterName=demo-fargate-cluster --set serviceAccount.create=false --set serviceAccount.name=lb-ingress-sa --set region=ap-south-1 --set vpcId=vpc-00e11144eecd62d4b
 ```
 4. Verify the load balancer controller
 ```console

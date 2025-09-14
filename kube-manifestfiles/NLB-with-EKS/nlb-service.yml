@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: nlb-service
+  labels:
+    app: nlb-service
+  namespace: default
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-name: "nlb-k8s"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+    service.beta.kubernetes.io/aws-load-balancer-source-ranges: "0.0.0.0/0"
+    service.beta.kubernetes.io/aws-load-balancer-resource-tags: "Environment=dev,Team=devopspedia,Project=eksworkshop"
+    #service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: "HTTP"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "traffic-port"
+    service.beta.kubernetes.io/aws-load-balancer-helathcheck-path: "/"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "15"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "5"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold: "2"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-unhealthy-threshold: "2"
+    #TLS
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:ap-south-1:390402566276:certificate/0e117254-e0e5-4a92-aef7-b70799818814"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: "ELBSecurityPolicy-TLS13-1-2-2021-06"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy-type: "ELBSecurityPolicyType"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-redirect: "443"
+    service.beta.kubernetes.io/aws-load-balancer-connection-draining-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout: "60"
+    service.beta.kubernetes.io/aws-load-balancer-connection-draining-policy: "tcp-draining"
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
+    #DNS
+    #external-dns.alpha.kubernetes.io/hostname: "nlb-k8s.devopspedia.online"
+    #Elastic IP allocation
+    #service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-0d3f4e5b6c7a8b9c0,eipalloc-1a2b3c4d5e6f7g8h9"
+
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+    - port: 443
+      targetPort: 80
+  selector:
+    app: nginx-demo-1

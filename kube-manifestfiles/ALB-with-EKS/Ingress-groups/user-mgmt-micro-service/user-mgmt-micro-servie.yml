@@ -45,6 +45,13 @@ spec:
                 secretKeyRef:
                   name: user-mgmt-db-secrets
                   key: db_password
+          resources:
+            requests:
+              cpu: 250m
+              memory: 250Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
       volumes:
         - name: user-mgmt-secret-inline
           csi:
